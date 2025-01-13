@@ -5,7 +5,7 @@
     <AssemblyName>CoreOSC</AssemblyName>
     <RootNamespace>CoreOSC</RootNamespace>
 	  <Version>1.0.0</Version>
-	  <PackageId>CoreOSC.2025.01.12</PackageId>
+	  <PackageId>CoreOSC</PackageId>
 	  <Authors>LeakyRUS</Authors>
 	  <Title>CoreOSC</Title>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
