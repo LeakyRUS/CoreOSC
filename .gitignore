@@ -26,3 +26,4 @@ _ReSharper*/
 .vs/
 CoreOSC./bin
 CoreOSC.Tests/bin
+*.swp
