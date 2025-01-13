@@ -1,0 +1,12 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: dotnet build -c Release 
+      - name: Test
+        run: dotnet test -c Release
+      - name: Pack
+        run: dotnet pack -c Release
