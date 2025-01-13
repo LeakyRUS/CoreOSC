@@ -1,3 +1,6 @@
+name: "CoreOSC build"
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
