@@ -1,0 +1,52 @@
+name: "CoreOSC build"
+on: 
+  pull_request:
+    branches: [ "master" ]
+  push:
+    branches:
+      - 'master'
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Build
+        run: dotnet build -c Release
+
+      - name: Test
+        run: dotnet test -c Release
+
+      - name: Pack
+        run: dotnet pack -c Release -o .
+
+      - name: Push artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coreosc-nupkg
+          path: "*.nupkg"
+
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    needs: build
+    if: (github.ref == 'refs/heads/master') || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Pull artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coreosc-nupkg
+
+      - name: Publish to repo
+        run: |
+          dotnet nuget push *.nupkg -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -k ${{ secrets.GITHUB_TOKEN }}
