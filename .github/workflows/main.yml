@@ -3,10 +3,9 @@ on:
   pull_request:
     branches: [ "master" ]
   push:
-    tags:
-      - '*.*.*'
     branches:
       - 'feature/ci-build'
+      - 'master'
 
 jobs:
   build:
@@ -21,7 +20,7 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Build
-        run: dotnet build -c Release /p:Version=${{ github.ref_name }}
+        run: dotnet build -c Release
 
       - name: Test
         run: dotnet test -c Release
@@ -40,15 +39,8 @@ jobs:
     permissions:
       packages: write
     needs: build
-    if: github.ref_type == 'tag'
+#    if: github.ref == 'refs/heads/master'
     steps:
-      - name: Check matching tag
-        run: |
-          if [[ ! ${{ github.event.ref }} =~ ^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "Tag does not match SemVer notation!"
-              exit 1
-          fi
-
       - name: Pull artifacts
         uses: actions/download-artifact@v4
         with:
