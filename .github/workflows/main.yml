@@ -4,7 +4,6 @@ on:
     branches: [ "master" ]
   push:
     branches:
-      - 'feature/ci-build'
       - 'master'
 
 jobs:
@@ -39,7 +38,7 @@ jobs:
     permissions:
       packages: write
     needs: build
-#    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Pull artifacts
         uses: actions/download-artifact@v4
